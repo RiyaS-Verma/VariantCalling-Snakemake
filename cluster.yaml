@@ -1,0 +1,34 @@
+__default__:
+  time: '1:00:00'
+  mem: '8gb'
+  tasks: 1
+  cores: 1
+  logout: 'slurm_logs/slurm_logs_{rule}_{wildcards.sample}.out'
+  logerror: 'slurm_logs/slurm_logs_{rule}_{wildcards.sample}.err'
+  acc: rsubrama_477
+
+alignReads:
+  cores: 16
+  mem: '32gb'
+
+GenomicsDBImport:
+  cores: 16
+  mem: '32gb'
+  logout: 'slurm_logs/slurm_logs_{rule}_{wildcards.trio}.out'
+  logerror: 'slurm_logs/slurm_logs_{rule}_{wildcards.trio}.err'
+
+GenotypeGVCFs:
+  cores: 16
+  mem: '32gb'
+  logout: 'slurm_logs/slurm_logs_{rule}_{wildcards.trio}.out'
+  logerror: 'slurm_logs/slurm_logs_{rule}_{wildcards.trio}.err'
+
+ValidateVariants:
+  logout: 'slurm_logs/slurm_logs_{rule}_{wildcards.trio}.out'
+  logerror: 'slurm_logs/slurm_logs_{rule}_{wildcards.trio}.err'
+
+VariantRecalibrator:
+  cores: 16
+  mem: '32gb'
+  logout: 'slurm_logs/slurm_logs_{rule}_{wildcards.trio}.out'
+  logerror: 'slurm_logs/slurm_logs_{rule}_{wildcards.trio}.err'
