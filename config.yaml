@@ -1,0 +1,50 @@
+# Main working directory, sample directory and suffix of reads
+workDir: /project/rsubrama_477/riya/VariantCalling/
+readsDir: /project/rsubrama_477/riya/VariantCalling/seq_files
+read1Suffix: _1.fastq.gz
+read2Suffix: _2.fastq.gz
+probandsuff: _P
+fathersuff: _F
+mothersuff: _M
+
+
+#BWAFastqtoSAM parameters, same reference for MergeBamAlignment
+reference: /project/rsubrama_477/riya/VariantCalling/reference/gatk/Homo_sapiens_assembly38.fasta
+nThreads: 16
+reference_bowtie: '/project/rsubrama_477/riya/VariantCalling/reference/gatk/bowtie2'
+
+#MergeBamAlignment parameters
+SortOrder: 'unsorted'
+ClipAdapters: false
+AddMateCigar: true
+MaxInsertsOrDels: -1
+PrimaryAlign: 'MostDistant'
+UnmapCont: false
+AttrRet1: 'XS'
+AttrRet2: 'XA'
+
+# trim_galore parameters
+minPhred: 20
+minOverlap: 3
+
+#AddRGtoBam
+RGID: 2902
+RGLB: 'lib1'
+RGPL: 'illumina'
+RGPU: 'unit1'
+RGSM: 2902
+
+#BaseRecalibrate
+KnownSites: '/project/rsubrama_477/riya/VariantCalling/reference/gatk/Homo_sapiens_assembly38.dbsnp138.vcf'
+
+#VariantRecalibrator
+hapmap: '/project/rsubrama_477/riya/VariantCalling/reference/gatk/hapmap_3.3.hg38.vcf.gz'
+omni: '/project/rsubrama_477/riya/VariantCalling/reference/gatk/1000G_omni2.5.hg38.vcf.gz'
+1000G: '/project/rsubrama_477/riya/VariantCalling/reference/gatk/1000G_phase1.snps.high_confidence.hg38.vcf.gz'
+dbsnp: '/project/rsubrama_477/riya/VariantCalling/reference/gatk/Homo_sapiens_assembly38.dbsnp138.vcf'
+
+#family ped
+ped: '/project/rsubrama_477/riya/VariantCalling/Family.ped'
+
+#config for snpEff
+snpEffconfig: '/project/rsubrama_477/riya/VariantCalling/reference/gatk/snpEff.config'
