@@ -1,2 +1,2 @@
 # VariantCalling-Snakemake
-Automated HPC Cluster slurm workflow for multiple samples using GATK variant calling tools using snakemake
+Automated HPC Cluster slurm workflow with Snakemake for multiple samples to perform Variant calling using GATK tools.
