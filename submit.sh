@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export REPO_PATH=/project/rsubrama_477/riya/VariantCalling
+export REPO_PATH=/path/to/project/output
 
 if [ ! -e "slurm_logs" ]
 then
