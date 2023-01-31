@@ -5,7 +5,7 @@ __default__:
   cores: 1
   logout: 'slurm_logs/slurm_logs_{rule}_{wildcards.sample}.out'
   logerror: 'slurm_logs/slurm_logs_{rule}_{wildcards.sample}.err'
-  acc: rsubrama_477
+  acc: slurm_acc
 
 alignReads:
   cores: 16
