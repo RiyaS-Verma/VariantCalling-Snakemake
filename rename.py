@@ -1,4 +1,6 @@
-#code to rename files to follow matching trio sample key for snakemake analysis
+#code to rename files to generate matching trio sample key used in the snakemake analysis
+#assuming proband, father and mother have unique IDs, run this to generate file names with trio identifying keys
+
 import os
 import pandas as pd
 import subprocess
@@ -6,7 +8,7 @@ from glob import glob
 from pathlib import Path
 from numpy import unique
 
-df = pd.read_csv("/path/to/csv/trionames.csv")
+df = pd.read_csv("/path/to/csv/trionames.csv") #sample trionames.csv in main file
 WORK_DIR='/path/to/working/directory/'
 for index, row in df.iterrows():
     trio = row['Trio#']
