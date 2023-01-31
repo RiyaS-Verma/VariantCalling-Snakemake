@@ -24,7 +24,7 @@ wildcard_constraints:
 
 rule all:
   input:
-    expand('trimmed_reads/{sample}_val_1.fq.gz', sample=samples)
+    #expand('ruletoexpand/{sample}.outputsyntax', sample=samples)
 
 rule fastqc:
   input:
@@ -87,39 +87,9 @@ rule alignReads_bw2: #bowtie2
   log:
     'logs/{sample}_bowtie2.log'
   shell:
-    'bowtie2 -p {threads} -x {params.reference} ' #export BOWTIE2_INDEXES=/path/to/my/bowtie2/databases/
-    '-1 {input.r1} -2 {input.r2} -S {output.sam} 2> {log}; ' #cp *.bt2 $BOWTIE2_INDEXES
+    'bowtie2 -p {threads} -x {params.reference} ' #make sure bowtie indexes is in path 
+    '-1 {input.r1} -2 {input.r2} -S {output.sam} 2> {log}; ' 
     'samtools sort -@ {threads} -o {output.bam} {output.sam}; '
-
-
-#rule MergeBamAlignment:
-  #input:
-    #bam = 'aligned_reads/{sample}.bam'
-  #output:
-    #u_bam = temp('mergedBam/{sample}_u.bam'),
-    #mergedBam = 'mergedBam/{sample}_merged_align.bam'
-  #params:
-    #reference = config['reference'],
-    #SortOrder = config['SortOrder'],
-    #ClipAdapters = config['ClipAdapters'],
-    #AddMateCigar = config['AddMateCigar'],
-    #MaxInsertsOrDels = config['MaxInsertsOrDels'],
-    #PrimaryAlign = config['PrimaryAlign'],
-    #UnmapCont = config['UnmapCont'],
-    #AttrRet1 = config['AttrRet1'],
-    #AttrRet2 = config['AttrRet2']
-  #shell:
-    #'picard RevertSam I={input.bam} O={output.u_bam};'
-    #'picard MergeBamAlignment ALIGNED={input.bam} UNMAPPED={output.u_bam} '
-    #'O={output.mergedBam} '
-    #'R={params.reference} SORT_ORDER={params.SortOrder} '
-    #'CLIP_ADAPTERS={params.ClipAdapters} '
-    #'ADD_MATE_CIGAR={params.AddMateCigar} '
-    #'MAX_INSERTIONS_OR_DELETIONS={params.MaxInsertsOrDels} '
-    #'PRIMARY_ALIGNMENT_STRATEGY={params.PrimaryAlign} '
-    #'UNMAP_CONTAMINANT_READS={params.UnmapCont} '
-    #'ATTRIBUTES_TO_RETAIN={params.AttrRet1} '
-    #'ATTRIBUTES_TO_RETAIN={params.AttrRet2} '
 
 #check if reads are sorted
 
@@ -158,12 +128,13 @@ rule BaseRecalibrate:
   params:
     reference = config['reference'],
     KnownSites = config['KnownSites']
+    JavaOptions = config['JavaOptions']
   shell:
-    'gatk --java-options "-Xmx44G" BaseRecalibrator '
+    'gatk --java-options {params.JavaOptions} BaseRecalibrator '
     '-I {input.rg_bam} -R {params.reference} '
     '--known-sites {params.KnownSites} '
     '-O {output.rc_table}; '
-    'gatk --java-options "-Xmx44G" ApplyBQSR '
+    'gatk --java-options {params.JavaOptions} ApplyBQSR '
     '-I {input.rg_bam} -R {params.reference} '
     '--bqsr-recal-file {output.rc_table} '
     '-O {output.rc_bam}'
@@ -192,8 +163,9 @@ rule HaplotypeCaller:
     reference = config['reference']
   threads:
     config['nThreads']
+    config['JavaOptions
   shell:
-    'gatk --java-options "-Xmx4g" HaplotypeCaller'
+    'gatk --java-options {params.JavaOptions} HaplotypeCaller'
     '-R {params.reference} '
     '-I {input.recal_bam} '
     '-O {output.vcf} '
@@ -245,7 +217,7 @@ rule GenomicsDBImport:
     '--tmp-dir /scratch2/rsverma '
     '--genomicsdb-workspace-path {params.workDir} '
     '--consolidate true '
-    '-L /project/rsubrama_477/riya/VariantCalling/interval.list'
+    '-L /path/to/interval/list'
 
 rule GenotypeGVCFs: #genotype based on trios
   input:
