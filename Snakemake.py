@@ -291,8 +291,9 @@ rule CalculateGenotypePosteriors:
     genoposteriors = 'GenotypePosteriors/{trio}_GenoPosteriors.vcf.gz'
   params:
     ped = config['ped']
+    JavaOptions = config['JavaOptions']
   shell:
-    'gatk --java-options "-Xmx4g" CalculateGenotypePosterior '
+    'gatk --java-options {params.JavaOptions} CalculateGenotypePosterior '
     '-V {input.vqsr} '
     '-O {output.genoposteriors} '
     '-ped {params.ped} '
